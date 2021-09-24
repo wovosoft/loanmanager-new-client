@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{346:function(e,n,t){"use strict";t.r(n);var r={head:function(){return{title:"Dashboard"}}},o=t(64),component=Object(o.a)(r,(function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("b-container",[t("h1",[e._v("Home page")])])}),[],!1,null,null,null);n.default=component.exports}}]);
