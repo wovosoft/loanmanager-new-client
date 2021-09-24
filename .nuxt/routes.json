@@ -3,84 +3,72 @@
     "name": "accounts___bn",
     "path": "/accounts",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\accounts\\\\index.vue",
-    "chunkName": "pages/accounts/index",
-    "_name": "_642d93f2"
+    "chunkName": "pages/accounts/index"
   },
   {
     "name": "borrowers___bn",
     "path": "/borrowers",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\borrowers\\\\index.vue",
-    "chunkName": "pages/borrowers/index",
-    "_name": "_710006d4"
+    "chunkName": "pages/borrowers/index"
   },
   {
     "name": "index___en",
     "path": "/en",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_761860ed"
+    "chunkName": "pages/index"
   },
   {
     "name": "installments___bn",
     "path": "/installments",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\installments\\\\index.vue",
-    "chunkName": "pages/installments/index",
-    "_name": "_5332f5d3"
+    "chunkName": "pages/installments/index"
   },
   {
     "name": "loans___bn",
     "path": "/loans",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\loans\\\\index.vue",
-    "chunkName": "pages/loans/index",
-    "_name": "_329f25a4"
+    "chunkName": "pages/loans/index"
   },
   {
     "name": "users___bn",
     "path": "/users",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\users\\\\index.vue",
-    "chunkName": "pages/users/index",
-    "_name": "_6c9e4802"
+    "chunkName": "pages/users/index"
   },
   {
     "name": "accounts___en",
     "path": "/en/accounts",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\accounts\\\\index.vue",
-    "chunkName": "pages/accounts/index",
-    "_name": "_642d93f2"
+    "chunkName": "pages/accounts/index"
   },
   {
     "name": "borrowers___en",
     "path": "/en/borrowers",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\borrowers\\\\index.vue",
-    "chunkName": "pages/borrowers/index",
-    "_name": "_710006d4"
+    "chunkName": "pages/borrowers/index"
   },
   {
     "name": "installments___en",
     "path": "/en/installments",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\installments\\\\index.vue",
-    "chunkName": "pages/installments/index",
-    "_name": "_5332f5d3"
+    "chunkName": "pages/installments/index"
   },
   {
     "name": "loans___en",
     "path": "/en/loans",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\loans\\\\index.vue",
-    "chunkName": "pages/loans/index",
-    "_name": "_329f25a4"
+    "chunkName": "pages/loans/index"
   },
   {
     "name": "users___en",
     "path": "/en/users",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\users\\\\index.vue",
-    "chunkName": "pages/users/index",
-    "_name": "_6c9e4802"
+    "chunkName": "pages/users/index"
   },
   {
     "name": "index___bn",
     "path": "/",
     "component": "D:\\\\laragon\\\\www\\\\loanmanagerclient\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_761860ed"
+    "chunkName": "pages/index"
   }
 ]
