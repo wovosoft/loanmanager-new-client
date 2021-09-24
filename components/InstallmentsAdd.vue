@@ -1,150 +1,125 @@
 <template>
     <b-modal
-        id="add-modal"
         header-class="py-2"
         footer-class="py-1"
         button-size="sm"
-        :title="$t('Take Installment')"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        no-close-on-esc
         :ok-title="$t('submit')"
-        :cancel-title="$t('back')"
-        @hidden="resetItem"
-        @ok.prevent="$refs.the_sub.click()">
+        :cancel-title="$t('cancel')"
+        v-model="is_visible"
+        :title="$t('Installment Details')"
+        header-bg-variant="dark"
+        @ok.prevent="handleSubmit"
+        @shown="setItem"
+        @hidden="$emit('input',false);$emit('hidden',true);form={};"
+        header-text-variant="light">
         <template #default="{hide}">
-            <b-form @submit.prevent="store(hide)">
-                <b-form-group :label="$t('account_no')+' *'">
-                    <b-input-group size="sm">
-                        <b-input
-                            v-model="account_no"
-                            name="account_no"
-                            type="search"
-                            :placeholder="$t('Search Account')"
-                            @keypress.enter.prevent="searchLoan"
-                        />
-                        <template #append>
-                            <b-btn size="sm" variant="dark" @click="searchLoan">
-                                <b-icon-search/>
-                            </b-btn>
-                        </template>
-                    </b-input-group>
-                </b-form-group>
-                <b-form-group :label="$t('loan')+' *'">
-                    <b-select
-                        :options="loans"
-                        required
-                        size="sm"
-                        name="loan"
-                        v-model="item.loan_id"
-                        @input="loanChanged">
-                        <b-select-option
-                            :value="loan.id"
-                            v-for="(loan, loan_key) in loans"
-                            :key="loan_key">
-                            {{
-                                [
-                                    loan.id,
-                                    "# Amount:",
-                                    loan.loan_amount,
-                                    "| Date:",
-                                    loan.disbursement_date,
-                                    "| Due:",
-                                    loan.due_amount,
-                                ].join(" ")
-                            }}
-                        </b-select-option>
-                    </b-select>
-                </b-form-group>
-                <b-form-group :label="$t('date')+ ' *'">
-                    <b-input size="sm" type="date" required v-model="item.date"/>
-                </b-form-group>
-                <b-form-group :label="$t('installment') +' *'">
-                    <b-input-group size="sm">
-                        <b-input
-                            type="number"
-                            step="any"
-                            :min="0"
-                            required
-                            v-model="item.amount"
-                        />
-                        <b-select :options="['cash', 'bank', 'mobile']"/>
-                    </b-input-group>
-                </b-form-group>
-                <b-btn
-                    ref="the_sub"
-                    hidden
-                    type="submit"
-                    variant="dark"
-                    block
-                    size="sm"
-                >
-                    SUBMIT
-                </b-btn>
+<!--            {{ form }}-->
+            <b-form ref="the_form" @submit.prevent="handleSubmit(hide)">
+                <table class="table table-sm table-bordered table-hover">
+                    <tr>
+                        <th>{{ $t('loan') }}</th>
+                        <td>
+                            <loans-select
+                                @itemSelected="setLoanFields"
+                                class="border-0"
+                                v-model="form.loan_id"
+                            />
+                        </td>
+                    </tr>
+                    <template v-for="x in Object.keys(form)">
+                        <tr v-if="['date','amount','payment_method'].includes(x)">
+                            <th>{{ $t(x) + (isRequired(x) ? ' *' : '') }}</th>
+                            <td class="p-0">
+                                <b-form-input
+                                    v-if="['date','amount'].includes(x)"
+                                    v-bind="getType(x)"
+                                    class="border-0"
+                                    size="sm"
+                                    v-model="form[x]"
+                                />
+                                <b-form-select
+                                    v-else
+                                    class="border-0"
+                                    size="sm"
+                                    :options="payment_methods"
+                                    v-model="form[x]"
+                                />
+                            </td>
+                        </tr>
+                    </template>
+                </table>
             </b-form>
         </template>
     </b-modal>
 </template>
 <script>
-import dayjs from "dayjs"
 
-const initialItem = {
-    loan_id: null,
-    amount: 0,
-    method: "cash",
-    date: dayjs().format("YYYY-MM-DD")
-};
+import {handleSubmit} from "~/partials/form_methods";
+import payment_methods from "~/partials/payment_methods";
+
 export default {
+    props: {
+        item: {
+            type: Object | null,
+        },
+        value: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
-            account_no: null,
-            item: JSON.parse(JSON.stringify(initialItem)),
-            loans: [],
-        };
+            is_visible: false,
+            form: {}
+        }
     },
     computed: {
-        selectedLoan() {
-            if (!this.item.loan_id) {
-                return null;
-            }
-            return (this.loans || []).find((i) => i.id === this.item.loan_id);
+        payment_methods() {
+            return payment_methods(this);
         },
     },
     methods: {
-        resetItem() {
-            this.$set(this, 'item', JSON.parse(JSON.stringify(initialItem)));
+        setLoanFields(v) {
+            console.log(v)
+            this.form.amount = v.installment_amount || 0;
         },
-        searchLoan() {
-            this.$axios
-                .post("loans/by-account-no", {
-                    account_no: this.account_no,
-                })
-                .then((res) => {
-                    console.log(res.data);
-                    this.$set(this, "loans", res.data);
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                    this.$set(this, "loans", []);
-                });
+        setItem() {
+            this.$set(this, 'form', JSON.parse(JSON.stringify(this.item)));
         },
-        loanChanged() {
-            this.item.amount = this.selectedLoan ? this.selectedLoan.installment_amount : 0;
+        handleSubmit(hide) {
+            handleSubmit(this, hide, "/installments/store", JSON.parse(JSON.stringify(this.form)));
         },
-        store(hide) {
-            this.$axios
-                .post("installments/store", this.item)
-                .then((res) => {
-                    console.log(res.data);
-                    this.$set(this, 'item', JSON.parse(JSON.stringify(initialItem)));
-                    this.$emit("success", true);
-                    hide();
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                    this.$emit("failed", true);
-                });
+        getType(x) {
+            if (['date'].includes(x)) {
+                return {
+                    type: 'date'
+                };
+            } else if (['amount'].includes(x)) {
+                return {
+                    type: "number",
+                    min: 0,
+                    step: 'any'
+                };
+            }
+            return {type: "text"};
         },
+        isRequired(x) {
+            return ['name', 'nid', 'fathers_name', 'mothers_name'].includes(x);
+        },
+        findLoan(e) {
+            this.$axios.post("/installments/search_loans", {
+                filter: ''
+            }).then(res => {
+                console.log(res.data)
+            }).catch(err => {
+                console.log(err.response.data);
+            });
+        }
     },
+    watch: {
+        value(v) {
+            this.is_visible = v;
+        }
+    }
 };
 </script>

@@ -3,35 +3,35 @@
         <b-container>
             <b-navbar-brand>
                 <nuxt-link style="text-decoration: none; color: white" to="/">
-                    {{$t('loan_manager')}}
+                    {{ $t('loan_manager') }}
                 </nuxt-link>
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <li class="nav-item">
-                        <nuxt-link class="nav-link" :to="localePath('/users')">
-                            Users
+                        <nuxt-link class="nav-link" exact exact-active-class="active" :to="localePath('/users')">
+                            {{ $t('users') }}
                         </nuxt-link>
                     </li>
                     <li class="nav-item">
-                        <nuxt-link class="nav-link" :to="localePath('/borrowers')">
-                            Borrowers
+                        <nuxt-link class="nav-link" exact exact-active-class="active" :to="localePath('/borrowers')">
+                            {{ $t('borrowers') }}
                         </nuxt-link>
                     </li>
                     <li class="nav-item">
-                        <nuxt-link class="nav-link" :to="localePath('/accounts')">
-                            Accounts
+                        <nuxt-link class="nav-link" exact exact-active-class="active" :to="localePath('/accounts')">
+                            {{ $t("accounts") }}
                         </nuxt-link>
                     </li>
                     <li class="nav-item">
-                        <nuxt-link class="nav-link" :to="localePath('/loans')">
-                            Loans
+                        <nuxt-link class="nav-link" exact exact-active-class="active" :to="localePath('/loans')">
+                            {{ $t('loans') }}
                         </nuxt-link>
                     </li>
                     <li class="nav-item">
-                        <nuxt-link class="nav-link" :to="localePath('/installments')">
-                            Installments
+                        <nuxt-link class="nav-link" exact exact-active-class="active" :to="localePath('/installments')">
+                            {{ $t('installments') }}
                         </nuxt-link>
                     </li>
                 </b-navbar-nav>

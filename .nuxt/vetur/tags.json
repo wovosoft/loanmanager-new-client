@@ -1,0 +1,62 @@
+{
+  "AccountsAdd": {
+    "description": "Auto imported from components/AccountsAdd.vue"
+  },
+  "AccountsView": {
+    "description": "Auto imported from components/AccountsView.vue"
+  },
+  "ActionBtns": {
+    "description": "Auto imported from components/ActionBtns.vue"
+  },
+  "ApiSelectable": {
+    "description": "Auto imported from components/ApiSelectable.vue"
+  },
+  "BorrowersAdd": {
+    "description": "Auto imported from components/BorrowersAdd.vue"
+  },
+  "BorrowersSelect": {
+    "description": "Auto imported from components/BorrowersSelect.vue"
+  },
+  "BorrowersView": {
+    "description": "Auto imported from components/BorrowersView.vue"
+  },
+  "DatatableFooter": {
+    "description": "Auto imported from components/DatatableFooter.vue"
+  },
+  "DatatableHeader": {
+    "description": "Auto imported from components/DatatableHeader.vue"
+  },
+  "InstallmentsAdd": {
+    "description": "Auto imported from components/InstallmentsAdd.vue"
+  },
+  "InstallmentsView": {
+    "description": "Auto imported from components/InstallmentsView.vue"
+  },
+  "LoansAdd": {
+    "description": "Auto imported from components/LoansAdd.vue"
+  },
+  "LoansSelect": {
+    "description": "Auto imported from components/LoansSelect.vue"
+  },
+  "LoansView": {
+    "description": "Auto imported from components/LoansView.vue"
+  },
+  "MenuBar": {
+    "description": "Auto imported from components/MenuBar.vue"
+  },
+  "NuxtLogo": {
+    "description": "Auto imported from components/NuxtLogo.vue"
+  },
+  "Tutorial": {
+    "description": "Auto imported from components/Tutorial.vue"
+  },
+  "UsersAdd": {
+    "description": "Auto imported from components/UsersAdd.vue"
+  },
+  "UsersView": {
+    "description": "Auto imported from components/UsersView.vue"
+  },
+  "VSelect": {
+    "description": "Auto imported from components/VSelect.vue"
+  }
+}

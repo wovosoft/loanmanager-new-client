@@ -28,7 +28,9 @@ export default {
     css: [],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [],
+    plugins: [
+        // "~/plugins/messages.js"
+    ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
@@ -58,6 +60,11 @@ export default {
             messages: {
                 en: en,
                 bn: bn
+            },
+            currency: {
+                style: 'currency',
+                currency: 'BDT',
+                currencyDisplay: 'symbol'
             }
         }
     },

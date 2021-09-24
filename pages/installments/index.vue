@@ -7,7 +7,7 @@
                 header-text-variant="light"
                 footer-class="p-2">
                 <template #header>
-                    <b-form @submit.prevent="$refs.dttable.refresh()">
+                    <b-form @submit.prevent="$refs.datatable.refresh()">
                         <b-form-row>
                             <b-col md="2" sm="12">{{ title }}</b-col>
                             <b-col md="2" sm="12">
@@ -89,7 +89,7 @@
                             </b-col>
                             <b-col md="2" sm="12" class="text-right">
                                 <b-btn-group size="sm" class="d-inline">
-                                    <b-btn variant="primary" v-b-modal:add-modal>
+                                    <b-btn variant="primary" @click="show_add=true;initFormItem();">
                                         <b-icon-plus/>
                                     </b-btn>
                                 </b-btn-group>
@@ -98,18 +98,15 @@
                                     style="max-width: 100px"
                                     size="sm"
                                     v-model="datatable.per_page"
-                                    :options="[
-                                    5, 10, 15, 20, 30, 40, 50, 100, 200, 500,
-                                    1000,
-                                ]"
-                                ></b-select>
+                                    :options="[ 5, 10, 15, 20, 30, 40, 50, 100, 200, 500,1000,]"
+                                />
                             </b-col>
                         </b-form-row>
                     </b-form>
                 </template>
                 <b-table
                     responsive
-                    ref="dttable"
+                    ref="datatable"
                     api-url="/installments"
                     :per-page="datatable.per_page"
                     :current-page="datatable.current_page"
@@ -118,23 +115,23 @@
                     striped
                     head-variant="dark"
                     :items="getItems"
-                    :fields="fields"
-                >
-                    <template #cell(id)="row">
-                        {{ $n(row.index + datatable.from) }}
-                    </template>
+                    :fields="fields">
+<!--                    <template #cell(id)="row">-->
+<!--                        {{ $n(row.index + datatable.from) }}-->
+<!--                    </template>-->
                     <template #cell(is_active)="row">
                         {{ Number(row.item.is_active) ? "YES" : "NO" }}
                     </template>
                     <template #cell(action)="row">
-                        <b-btn-group size="sm">
-                            <b-btn variant="dark" title="View" @click="show_view=true,item=row.item">
-                                <b-icon-eye/>
-                            </b-btn>
-                            <b-btn variant="danger" title="Delete" @click="trash(row.item.id)">
-                                <b-icon-trash/>
-                            </b-btn>
-                        </b-btn-group>
+                        <action-btns
+                            :on-tap-add="()=>{
+                                item=JSON.parse(JSON.stringify(row.item));
+                                show_add=true;
+                            }"
+                            :on-tap-view="()=>{
+                                item=JSON.parse(JSON.stringify(row.item));
+                                show_view=true;
+                            }"/>
                     </template>
                 </b-table>
                 <template #footer>
@@ -142,11 +139,16 @@
                 </template>
             </b-card>
         </b-container>
-        <installments-add @success="$refs.dttable.refresh()"/>
+
         <installments-view
             @hidden="item=null"
             :item="item"
             v-model="show_view"/>
+        <installments-add
+            @stored="$refs.datatable.refresh()"
+            @hidden="item=null"
+            :item="item"
+            v-model="show_add"/>
     </div>
 </template>
 <script>
@@ -172,12 +174,13 @@ export default {
             query_fields: JSON.parse(JSON.stringify(queries)),
             accounts: [],
             show_view: false,
+            show_add: false,
             item: null,
             fields: [
                 {
                     key: "id",
                     sortable: true,
-                    label: this.$t('index'),
+                    label: this.$t('id'),
                 },
                 {
                     key: "borrower", sortable: false,
@@ -211,15 +214,15 @@ export default {
                 },
                 {
                     key: "previous_debt", sortable: true, label: this.$t('previous_debt'),
-                    formatter: v => this.$n(v || 0)
+                    formatter: v => this.$n((v || 0), {style: 'currency', currency: 'BDT'})
                 },
                 {
                     key: "amount", sortable: true, label: this.$t('amount'),
-                    formatter: v => this.$n(v || 0)
+                    formatter: v => this.$n((v || 0), {style: 'currency', currency: 'BDT'})
                 },
                 {
                     key: "current_debt", sortable: true, label: this.$t('current_debt'),
-                    formatter: v => this.$n(v || 0)
+                    formatter: v => this.$n((v || 0), {style: 'currency', currency: 'BDT'})
                 },
                 {
                     key: "payment_method", sortable: true, label: this.$t('payment_method'),
@@ -232,14 +235,30 @@ export default {
     methods: {
         resetQueries() {
             this.query_fields = JSON.parse(JSON.stringify(queries));
-            this.$refs.dttable.refresh();
+            this.$refs.datatable.refresh();
+        },
+        initFormItem() {
+            let d = new Date();
+            let m = d.getMonth() + 1;
+            m = m < 10 ? ("0" + m) : m;
+            let date = d.getDate();
+            date = date < 10 ? ("0" + date) : date;
+            this.$set(this, 'item', {
+                loan_id: null,
+                date: d.getFullYear() + "-" + m + "-" + date,
+                previous_debt: 0,
+                amount: 0,
+                current_debt: 0,
+                payment_method: "cash",
+                files: null,
+            });
         },
         trash(id) {
             if (confirm("Are You Sure?")) {
                 this
                     .$axios.delete("installments/trash/" + id)
                     .then(res => {
-                        this.$refs.dttable.refresh();
+                        this.$refs.datatable.refresh();
                     })
                     .catch(err => {
                         console.log(err.response.data);

@@ -8,6 +8,7 @@
                 v-model="datatable.per_page"
                 :options="[5, 10, 15, 20, 30, 40, 50, 100, 200, 500, 1000]"
             ></b-select>
+            <slot name="actions"></slot>
         </b-col>
     </b-form-row>
 </template>
